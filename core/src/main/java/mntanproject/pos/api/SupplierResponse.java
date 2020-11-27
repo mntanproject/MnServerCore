@@ -14,7 +14,11 @@ public class SupplierResponse  {
 		
 	};
 	
-	public HttpResponse response() {
+	public String test() {
+		return null;
+	}
+	public HttpResponse response(String params) {
+		response.setContent(params);
 		return response;
 	}
 	

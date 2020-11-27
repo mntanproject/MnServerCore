@@ -30,6 +30,32 @@ public class HttpResponse {
 		return ("\r\n"); 
 	}
 
+	
+	
+	public StatusCode getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(StatusCode statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public ContentType getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	@Override
 	public String toString() {
 		String httpString = null;

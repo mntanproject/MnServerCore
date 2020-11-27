@@ -8,7 +8,7 @@ public class TestRequest {
 		Route route = new Route(new HttpRequest(HttpMethod.GET,
 				"/login/test.html?name=martin",
 				"HTTP/1.1"));
-		System.out.println("Route:" + route.getRouteFromRequest());
+		//System.out.println("Route:" + route.getRouteFromRequest());
 
 	}
 

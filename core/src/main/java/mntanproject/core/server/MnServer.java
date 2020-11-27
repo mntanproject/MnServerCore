@@ -80,13 +80,14 @@ public class MnServer {
     	
 		try {
 			HttpRequest request = new HttpRequestFactory().create(client.getInputStream());
-			String routeTo  = new Route(request).getRouteFromRequest();
+			//String routeTo  = new Route(request).getRouteFromRequest();
 			
 			HttpResponse response = null;
 			route = new Route(request);
 			response = route.getResponseFromClass(registeredRoute);
 			if(response == null) {
-				response = new HttpResponse(StatusCode.ERROR, ContentType.TEXT,"API Not found");
+				String errorMessage = "<B>Invalid</B> API request"; 								
+				response = new HttpResponse(StatusCode.ERROR, ContentType.TEXT,errorMessage);
 			}
 			sendResponse(response, client);
 			
