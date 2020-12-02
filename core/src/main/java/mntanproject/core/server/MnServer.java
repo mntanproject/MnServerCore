@@ -20,8 +20,8 @@ import mntanproject.core.server.route.Route;
 
 public class MnServer {
 
-	private boolean serverRunning = false;
-	private ServerSocket serverSocket;
+	public boolean serverRunning = false;
+	private ServerSocket serverSocket = null;
 	private final ExecutorService connectionProcessorThreadPool = Executors.newCachedThreadPool();
 	private connectionListener connectionListenerThread;
 	int port;
@@ -29,21 +29,28 @@ public class MnServer {
 	public Route route;
 	
 	public MnServer(int port) {
+		super();
 		this.port = port;
 	}
 
 	public void startServer(){
-		try {
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			System.out.println("Error opening port");
-			e.printStackTrace();
+		if(serverRunning) {
+			System.out.println("Server already running");
+		} else {
+			
+			try {
+				serverSocket = new ServerSocket(port);
+			} catch (IOException e) {
+				System.out.println("Error opening port");
+				e.printStackTrace();
+			}
+			serverRunning = true;
+			connectionListenerThread = new connectionListener();
+			System.out.println("Server is starting");
+			connectionListenerThread.start();
+			System.out.println("Server started listening at port: " + port);
 		}
-		serverRunning = true;
-		connectionListenerThread = new connectionListener();
-		System.out.println("Server is starting");
-		connectionListenerThread.start();
-		System.out.println("Server started listening at port: " + port);
+		
 
 	}
 
@@ -108,7 +115,6 @@ public class MnServer {
 		}
 	}
 
-
 	private class ConnectionProcessor implements Runnable {
 
 		private Socket acceptedSocket = null;
@@ -118,8 +124,8 @@ public class MnServer {
 			this.acceptedSocket = acceptedSocket;
 			this.serverMsg = serverMsg;
 		}
-
-		@Override
+		
+		
 		public void run() {
 			try {
 				System.out.println("handling request from: " + acceptedSocket.getInetAddress().getHostAddress() );
