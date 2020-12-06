@@ -13,7 +13,7 @@ public class Test {
 		//Thread serverThread = new Thread(server);
 		//register route
 		HashMap<String,String>routes = new HashMap<String,String>();
-		routes.put("supplier","mntanproject.pos.api.SupplierResponse");
+		routes.put("supplier","mntanproject.pos.supplier.SupplierResponse");
 		server.getRegisteredRoute().setRegisteredRoutes(routes);
 		server.startServer();
 		
@@ -33,7 +33,7 @@ public class Test {
 	
 		System.out.println("sleep thread ended");
 	
-	
+		server.startServer();
 		//server.shutdownServer();
 		//System.out.println("Bye...");
 		//System.exit(0);
