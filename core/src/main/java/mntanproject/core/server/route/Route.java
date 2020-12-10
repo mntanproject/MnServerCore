@@ -20,6 +20,7 @@ public class Route {
 	String route = null;
 	String method = null;
 	String params = null;
+	String requestMethod = null;
 	boolean apiAccess = false;
 
 	// HashMap<String,String> params = new HashMap<String,String>();
@@ -28,6 +29,7 @@ public class Route {
 	public Route(HttpRequest request) {
 		super();
 		this.request = request;
+		this.requestMethod = request.getMethod().toUpperCase();
 		this.uri = request.getUri();
 		if(!isRequestEmptyUri()) {
 			processRouteFromRequest();
@@ -49,22 +51,48 @@ public class Route {
 //		for (int i = 0; i < splits.length; i++) {
 //			System.out.println("route: " + i + " - " + splits[i]);
 //		}
-		if (splitsLength >= 5) {
-			api = splits[1];
-			if (api != null && api.trim().length()!=0) {
-				if (api.equalsIgnoreCase("api")) {
-					route = splits[2];
-					method = splits[3];
-					params = splits[4];
-				}else {
-					System.out.println("Server is only for api access");
+		
+		switch (requestMethod) {
+		case "GET":
+			if (splitsLength >= 5) {
+				api = splits[1];
+				if (api != null && api.trim().length()!=0) {
+					if (api.equalsIgnoreCase("api")) {
+						route = splits[2];
+						method = splits[3];
+						params = splits[4];
+					}else {
+						System.out.println("Server is only for api access");
+					}
+
 				}
 
+			}else {
+				System.out.println("Invalid Request");
 			}
+	
+			break;
 
-		}else {
-			System.out.println("Invalid Request");
+		case "POST":
+			if (splitsLength >= 4) {
+				api = splits[1];
+				if (api != null && api.trim().length()!=0) {
+					if (api.equalsIgnoreCase("api")) {
+						route = splits[2];
+						method = splits[3];
+						params = request.getHttpBody();
+					}else {
+						System.out.println("Server is only for api access");
+					}
+
+				}
+
+			}else {
+				System.out.println("Invalid Request");
+			}
+			break;
 		}
+		
 
 	}
 
